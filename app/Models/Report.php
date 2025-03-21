@@ -11,6 +11,7 @@ class Report extends Model
     protected $table = 'reports';
 
     protected $fillable = [
+        'product_id',
         'tanggal',
         'stok_awal',
         'no_tangki',
@@ -36,10 +37,6 @@ class Report extends Model
 
         static::creating(function ($report) {
             $report->susut_tangki = $report->vol_penerimaan_pnbp - $report->vol_penerimaan_aktual;
-            $despenserJumlah = $report->despenser()->sum('jumlah');
-            if ($despenserJumlah > 0) {
-                $report->pengeluaran = $despenserJumlah;
-            }
             $report->stok_teoritis = $report->stok_awal + $report->vol_penerimaan_aktual - $report->pengeluaran;
             $report->susut_pengeluaran = $report->stok_teoritis - $report->stok_aktual;
             $report->total_susut = $report->susut_tangki + $report->susut_pengeluaran;
@@ -70,10 +67,6 @@ class Report extends Model
 
         static::updating(function ($report) {
             $report->susut_tangki = $report->vol_penerimaan_pnbp - $report->vol_penerimaan_aktual;
-            $despenserJumlah = $report->despenser()->sum('jumlah');
-            if ($despenserJumlah > 0) {
-                $report->pengeluaran = $despenserJumlah;
-            }
             $report->stok_teoritis = $report->stok_awal + $report->vol_penerimaan_aktual - $report->pengeluaran;
             $report->susut_pengeluaran = $report->stok_teoritis - $report->stok_aktual;
             $report->total_susut = $report->susut_tangki + $report->susut_pengeluaran;
@@ -112,12 +105,6 @@ class Report extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
-    }
-
-    // Relasi ke tabel teller
-    public function despenser()
-    {
-        return $this->hasMany(Despenser::class, 'product_id', 'product_id');
     }
 
     protected $casts = [

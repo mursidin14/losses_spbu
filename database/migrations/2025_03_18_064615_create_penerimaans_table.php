@@ -11,20 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('despensers', function (Blueprint $table) {
+        Schema::create('penerimaans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->foreignId('shift_id')->constrained('shifts')->onDelete('cascade');
             $table->date('tanggal');
-            $table->json('waktu_masuk')->nullable();
-            $table->json('waktu_selesai')->nullable();
-            $table->json('name');
-            $table->json('nozzle');
-            $table->integer('stok_awal')->default(0);
-            $table->integer('jumlah')->default(0);
-            $table->integer('stok_teoritis')->default(0);
-            $table->integer('stok_akhir')->default(0);
-            $table->integer('susut_despenser')->default(0);
+            $table->string('no_tangki')->default('-');
+            $table->string('no_pnbp')->default('-');
+            $table->integer('vol_sebelum_penerimaan')->default(0);
+            $table->integer('vol_penerimaan_pnbp')->default(0);
+            $table->integer('vol_penerimaan_aktual')->default(0);
+            $table->integer('susut_tangki')->default(0);
             $table->decimal('susut_harian', 5, 2)->default(0.0);
             $table->decimal('susut_bulanan', 5, 2)->default(0.0);
             $table->decimal('susut_tahunan', 5, 2)->default(0.0);
@@ -37,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('despensers');
+        Schema::dropIfExists('penerimaans');
     }
 };

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Models\Product;
+use App\Filament\Resources\ShiftResource\Pages;
+use App\Filament\Resources\ShiftResource\RelationManagers;
+use App\Models\Shift;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProductResource extends Resource
+class ShiftResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Shift::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,7 +25,7 @@ class ProductResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                 ->required()
-                ->label('Nama Produk'),
+                ->label('Nama Shift'),
             ]);
     }
 
@@ -34,7 +34,7 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama Produk')
+                    ->label('Nama Shift')
                     ->sortable()
                     ->searchable(),
             ])
@@ -61,9 +61,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListShifts::route('/'),
+            'create' => Pages\CreateShift::route('/create'),
+            'edit' => Pages\EditShift::route('/{record}/edit'),
         ];
     }
 }

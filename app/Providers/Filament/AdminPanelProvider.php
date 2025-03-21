@@ -2,11 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\LossesDespenserHarian;
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\SusutBulananChart;
 use App\Filament\Widgets\SusutChartWidget;
 use App\Models\Product;
 use App\Models\Report;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,6 +29,15 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
+
+    public function boot(): void
+{
+    Filament::registerRenderHook(
+        'head.start',
+        fn () => '<title>Login | Sistem Manajemen Losses</title>'
+    );
+}
+
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -34,13 +45,15 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('')
             ->login()
+            ->brandName('Sistem Manajemen Losses')
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->widgets([
                 StatsOverview::class,
                 SusutChartWidget::class,
-                SusutBulananChart::class
+                SusutBulananChart::class,
+                LossesDespenserHarian::class,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

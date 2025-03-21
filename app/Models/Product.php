@@ -11,8 +11,7 @@ class Product extends Model
     protected $table = "products";
 
     protected $fillable = [
-        'name',
-        'slug'
+        'name'
     ];
 
     public function report()
@@ -23,5 +22,20 @@ class Product extends Model
     public function despenser()
     {
         return $this->hasMany(Despenser::class);
+    }
+
+    public function penerimaan()
+    {
+        return $this->hasMany(Penerimaan::class);
+    }
+
+    public function nozzle()
+    {
+        return $this->hasMany(Nozzle::class);
+    }
+
+    public function latestReport()
+    {
+        return $this->hasOne(Report::class)->latestOfMany('tanggal');
     }
 }

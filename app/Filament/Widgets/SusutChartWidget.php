@@ -37,7 +37,7 @@ class SusutChartWidget extends ChartWidget
                     'label' => $product->name,
                     'data' => array_values($susutData),
                     'fill' => false,
-                    'borderColor' => ['#f59e0b', '#10b981', '#3b82f6', '#ef4444'], // Atau assign warna manual
+                    'borderColor' => ['#f59e0b', '#10b981', '#3b82f6', '#ef4444'],
                 ];
             }
         
