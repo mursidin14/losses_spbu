@@ -9,6 +9,8 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class StatsOverview extends BaseWidget
 {
+    protected ?string $heading = 'Losses Tahunan';
+
     protected function getStats(): array
     {
         $products = Product::all();

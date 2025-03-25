@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Widgets\LossesDespenserHarian;
+use App\Filament\Widgets\StatsLossesBulanan;
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\SusutBulananChart;
 use App\Filament\Widgets\SusutChartWidget;
@@ -45,12 +46,14 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('')
             ->login()
+            ->profile()
             ->brandName('Sistem Manajemen Losses')
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->widgets([
                 StatsOverview::class,
+                StatsLossesBulanan::class,
                 SusutChartWidget::class,
                 SusutBulananChart::class,
                 LossesDespenserHarian::class,

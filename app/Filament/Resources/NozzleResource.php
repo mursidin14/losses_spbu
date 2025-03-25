@@ -21,10 +21,10 @@ class NozzleResource extends Resource
 
     public static ?string $navigationGroup = 'Operator';
 
-    // public static function canCreate(): bool
-    // {
-    //     return false;
-    // }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasAnyRole(['admin', 'supervisor', 'operator']);
+    }
 
     public static function form(Form $form): Form
     {

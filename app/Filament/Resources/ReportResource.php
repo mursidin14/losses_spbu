@@ -6,6 +6,7 @@ use App\Filament\Resources\ReportResource\Pages;
 use App\Filament\Resources\ReportResource\RelationManagers;
 use App\Models\Product;
 use App\Models\Report;
+use App\Models\User;
 use Filament\Actions\Action as ActionsAction;
 use Filament\Tables\Actions\Action;
 use Filament\Forms;
@@ -23,6 +24,11 @@ class ReportResource extends Resource
     protected static ?string $model = Report::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasAnyRole(['admin', 'supervisor']);
+    }
 
     public static function form(Form $form): Form
     {

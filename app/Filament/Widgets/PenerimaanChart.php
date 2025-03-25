@@ -39,8 +39,7 @@ class PenerimaanChart extends ChartWidget
                 'fill' => false,
                 'borderColor' => ['#f59e0b', '#10b981', '#3b82f6', '#ef4444'],
             ];
-        }
-    
+        }   
 
         sort($labels);      
         return [

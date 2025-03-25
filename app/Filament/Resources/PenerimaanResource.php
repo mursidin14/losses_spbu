@@ -19,6 +19,13 @@ class PenerimaanResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static ?string $navigationLabel = 'Penerimaan';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasAnyRole(['admin', 'supervisor']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
