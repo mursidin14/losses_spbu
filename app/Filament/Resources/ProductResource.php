@@ -21,7 +21,7 @@ class ProductResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()?->hasRole('admin');
+        return auth()->user()->hasAnyRole('admin');
     }
 
     public static function form(Form $form): Form

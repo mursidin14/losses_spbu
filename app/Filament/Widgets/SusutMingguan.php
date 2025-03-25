@@ -4,20 +4,19 @@ namespace App\Filament\Widgets;
 
 use App\Models\Product;
 use App\Models\Report;
-use Carbon\Carbon;
+use Filament\Widgets\StatsOverviewWidget\Card;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Filament\Widgets\StatsOverviewWidget\Card;
 
-class StatsLossesBulanan extends BaseWidget
+class SusutMingguan extends BaseWidget
 {
 
     public static function canView(): bool
     {
-        return auth()->user()->hasRole('admin');
+        return auth()->user()->hasRole('admin') || auth()->user()->hasRole('supervisor');
     }
 
-    protected ?string $heading = 'Losses Bulanan';
+    protected ?string $heading = 'Losses Mingguan';
 
     protected function getCards(): array
     {
@@ -25,13 +24,14 @@ class StatsLossesBulanan extends BaseWidget
         $cards = [];
 
         foreach ($products as $product) {
-            $avgSusutBulanan = Report::where('product_id', $product->id)
-                ->whereBetween('tanggal', [now()->startOfMonth()->subMonths(1), now()->endOfMonth()])
-                ->avg('susut_bulanan');
+            $currentWeek = now()->format('o-W');
+            $weeklyReports = Report::where('product_id', $product->id)
+                ->whereRaw("DATE_FORMAT(tanggal, '%o-%u') = ?", [$currentWeek])
+                ->avg('susut_mingguan');
 
-            $cards[] = Card::make($product->name, number_format($avgSusutBulanan, 2) . '%')
-                ->description('Rata-rata susut bulan ini')
-                ->color($this->getColorByValue($avgSusutBulanan));
+            $cards[] = Card::make($product->name, number_format($weeklyReports, 2) . '%')
+                ->description('Rata-rata susut minggu ini')
+                ->color($this->getColorByValue($weeklyReports));
         }
 
         return $cards;
@@ -42,13 +42,13 @@ class StatsLossesBulanan extends BaseWidget
         if (is_null($value)) {
             return 'gray'; 
         }
-    
+
         if ($value < 0.5) {
             return 'success';
         } elseif ($value < 1) {
             return 'warning';
         }
-    
+
         return 'danger';
     }
 }

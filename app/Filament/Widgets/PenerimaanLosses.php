@@ -9,10 +9,15 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class PenerimaanLosses extends BaseWidget
 {
-    protected static ?string $heading = 'Losses Harian Penerimaan';
-    protected static ?int $sort = 1; // Urutan tampil di dashboard
 
-    // Query data yang ditampilkan
+    public static function canView(): bool
+    {
+        return auth()->user()->hasRole('admin');
+    }
+
+    protected static ?string $heading = 'Losses Harian Penerimaan';
+    protected static ?int $sort = 1;
+
     public function table(Table $table): Table
     {
         return $table

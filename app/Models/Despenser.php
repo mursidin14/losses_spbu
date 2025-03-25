@@ -55,7 +55,7 @@ class Despenser extends Model
             $despenser->jumlah = $nozzles->sum('jumlah');
             $despenser->stok_teoritis = $despenser->stok_awal - $despenser->jumlah;
             $despenser->susut_despenser = $despenser->stok_teoritis - $despenser->stok_akhir;
-            $despenser->susut_harian = ($despenser->susut_despenser / $despenser->stok_awal) * 100;
+            $despenser->susut_harian = ($despenser->susut_despenser / $despenser->jumlah) * 1;
 
             // Susut Bulanan
             $month = $despenser->tanggal->format('Y-m');
@@ -64,9 +64,9 @@ class Despenser extends Model
                 ->get();
             
            $monthlyTotalSusut = $monthlyReports->sum('susut_harian');
-           $monthlyTotalStok = $monthlyReports->sum('stok_teoritis');
+           $monthlyTotalStok = $monthlyReports->sum('jumlah');
            
-           $despenser->susut_bulanan = ($monthlyTotalStok > 0)? ($monthlyTotalSusut/$monthlyTotalStok) * 100:0;
+           $despenser->susut_bulanan = ($monthlyTotalStok > 0)? ($monthlyTotalSusut/$monthlyTotalStok) * 1:0;
             
             // Susut Tahunan
             $year = $despenser->tanggal->format('Y');
@@ -75,9 +75,9 @@ class Despenser extends Model
                 ->get();
             
             $yearlyTotalSusut = $yearlyReports->sum('susut_harian');
-            $yearlyTotalStok = $yearlyReports->sum('stok_teoritis');
+            $yearlyTotalStok = $yearlyReports->sum('jumlah');
             
-            $despenser->susut_tahunan = ($yearlyTotalStok > 0) ? ($yearlyTotalSusut / $yearlyTotalStok) * 100:0;
+            $despenser->susut_tahunan = ($yearlyTotalStok > 0) ? ($yearlyTotalSusut / $yearlyTotalStok) * 1:0;
         });
 
         static::updating(function ($despenser) {
@@ -90,7 +90,7 @@ class Despenser extends Model
             $despenser->jumlah = $nozzles->sum('jumlah');
             $despenser->stok_teoritis = $despenser->stok_awal - $despenser->jumlah;
             $despenser->susut_despenser = $despenser->stok_teoritis - $despenser->stok_akhir;
-            $despenser->susut_harian = ($despenser->susut_despenser / $despenser->stok_awal) * 100;
+            $despenser->susut_harian = ($despenser->susut_despenser / $despenser->jumlah) * 1;
 
             // Susut Bulanan
             $month = $despenser->tanggal->format('Y-m');
@@ -99,9 +99,9 @@ class Despenser extends Model
                 ->get();
             
            $monthlyTotalSusut = $monthlyReports->sum('susut_harian');
-           $monthlyTotalStok = $monthlyReports->sum('stok_teoritis');
+           $monthlyTotalStok = $monthlyReports->sum('jumlah');
            
-           $despenser->susut_bulanan = ($monthlyTotalStok > 0)? ($monthlyTotalSusut/$monthlyTotalStok) * 100:0;
+           $despenser->susut_bulanan = ($monthlyTotalStok > 0)? ($monthlyTotalSusut/$monthlyTotalStok) * 1:0;
             
             // Susut Tahunan
             $year = $despenser->tanggal->format('Y');
@@ -110,9 +110,9 @@ class Despenser extends Model
                 ->get();
             
             $yearlyTotalSusut = $yearlyReports->sum('susut_harian');
-            $yearlyTotalStok = $yearlyReports->sum('stok_teoritis');
+            $yearlyTotalStok = $yearlyReports->sum('jumlah');
             
-            $despenser->susut_tahunan = ($yearlyTotalStok > 0) ? ($yearlyTotalSusut / $yearlyTotalStok) * 100:0;
+            $despenser->susut_tahunan = ($yearlyTotalStok > 0) ? ($yearlyTotalSusut / $yearlyTotalStok) * 1:0;
         });
     }
 

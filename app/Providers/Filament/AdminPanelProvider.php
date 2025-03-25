@@ -3,10 +3,15 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Widgets\LossesDespenserHarian;
+use App\Filament\Widgets\OperationtLosses;
+use App\Filament\Widgets\PenerimaanChart;
+use App\Filament\Widgets\PenerimaanLosses;
 use App\Filament\Widgets\StatsLossesBulanan;
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\SusutBulananChart;
 use App\Filament\Widgets\SusutChartWidget;
+use App\Filament\Widgets\SusutHarian;
+use App\Filament\Widgets\SusutMingguan;
 use App\Models\Product;
 use App\Models\Report;
 use Filament\Facades\Filament;
@@ -52,11 +57,10 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Amber,
             ])
             ->widgets([
-                StatsOverview::class,
                 StatsLossesBulanan::class,
-                SusutChartWidget::class,
+                SusutMingguan::class,
+                SusutHarian::class,
                 SusutBulananChart::class,
-                LossesDespenserHarian::class,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

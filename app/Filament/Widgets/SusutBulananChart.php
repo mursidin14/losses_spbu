@@ -8,6 +8,11 @@ use Filament\Widgets\ChartWidget;
 
 class SusutBulananChart extends ChartWidget
 {
+    public static function canView(): bool
+    {
+        return auth()->user()->hasRole('admin');
+    }
+
     protected static ?string $heading = 'Losses Bulanan';
     protected static string $color = 'info';
 
@@ -57,6 +62,6 @@ class SusutBulananChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
     }
 }

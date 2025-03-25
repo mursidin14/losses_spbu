@@ -29,8 +29,9 @@ return new class extends Migration
             $table->decimal('toleransi', 3, 1)->default(0.5);
             $table->integer('total_susut')->default(0);
             $table->decimal('susut_harian', 5, 2)->default(0.0);
-            $table->decimal('susut_bulanan', 5, 2)->default(0.0);
-            $table->decimal('susut_tahunan', 5, 2)->default(0.0);
+            $table->decimal('susut_mingguan', 6, 2)->default(0.0);
+            $table->decimal('susut_bulanan', 6, 2)->default(0.0);
+            $table->decimal('susut_tahunan', 6, 2)->default(0.0);
             $table->timestamps();
         });
     }

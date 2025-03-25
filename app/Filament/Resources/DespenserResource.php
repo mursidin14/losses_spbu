@@ -25,7 +25,7 @@ class DespenserResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()->hasAnyRole(['admin', 'supervisor', 'operator']);
+        return auth()->check() && auth()->user()->hasRole(['admin', 'supervisor', 'operator']);
     }
 
     public static function form(Form $form): Form
