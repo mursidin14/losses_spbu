@@ -24,9 +24,10 @@ class SusutMingguan extends BaseWidget
         $cards = [];
 
         foreach ($products as $product) {
-            $currentWeek = now()->format('o-W');
+            $startOfWeek = now()->startOfWeek();
+            $endOfWeek = now()->endOfWeek();
             $weeklyReports = Report::where('product_id', $product->id)
-                ->whereRaw("DATE_FORMAT(tanggal, '%o-%u') = ?", [$currentWeek])
+                ->whereBetween("tanggal", [$startOfWeek, $endOfWeek])
                 ->avg('susut_mingguan');
 
             $cards[] = Card::make($product->name, number_format($weeklyReports, 2) . '%')

@@ -44,9 +44,11 @@ class Report extends Model
             $report->susut_harian = ($report->susut_pengeluaran / $report->pengeluaran) * 1;
 
             // susut mingguan
-            $week = $report->tanggal->format('o-W');
+
+            $startOfWeek = now()->startOfWeek();
+            $endOfWeek = now()->endOfWeek();
             $weeklyReports = Report::where('product_id', $report->product_id)
-                ->whereRaw("DATE_FORMAT(tanggal, '%X-%V') = ?", [$week])
+                ->whereBetween("DATE_FORMAT(tanggal, '%X-%V') = ?", [$startOfWeek, $endOfWeek])
                 ->get();
             
            $weeklyTotalSusut = $weeklyReports->sum('susut_pengeluaran');
@@ -85,6 +87,18 @@ class Report extends Model
 
             // susut harian
             $report->susut_harian = ($report->susut_pengeluaran / $report->pengeluaran) * 1;
+
+            // susut mingguan
+            $startOfWeek = now()->startOfWeek();
+            $endOfWeek = now()->endOfWeek();
+            $weeklyReports = Report::where('product_id', $report->product_id)
+                ->whereBetween("tanggal", [$startOfWeek, $endOfWeek])
+                ->get();
+
+            $weeklyTotalSusut = $weeklyReports->sum('susut_pengeluaran');
+            $weeklyTotalStok = $weeklyReports->sum('pengeluaran');
+                
+            $report->susut_mingguan = ($weeklyTotalStok > 0)? ($weeklyTotalSusut/$weeklyTotalStok) * 1:0;
 
             // Susut Bulanan
             $month = $report->tanggal->format('Y-m');

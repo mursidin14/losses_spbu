@@ -34,8 +34,13 @@ class PenerimaanLosses extends BaseWidget
                     ->sortable()
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('susut_tangki')
+                    ->label('Susut Tanki (L)')
+                    ->numeric()
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('susut_harian')
-                    ->label('Susut Harian (L)')
+                    ->label('Susut Persent (%)')
                     ->numeric(2)
                     ->sortable(),
             ])
