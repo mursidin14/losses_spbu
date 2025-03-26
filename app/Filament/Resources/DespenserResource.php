@@ -5,11 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DespenserResource\Pages;
 use App\Filament\Resources\DespenserResource\RelationManagers;
 use App\Models\Despenser;
+use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -79,8 +81,8 @@ class DespenserResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('shift.name')->label('Shift'),
-                Tables\Columns\TextColumn::make('tanggal')->date(),
+                Tables\Columns\TextColumn::make('shift.name')->label('Shift')->searchable(),
+                Tables\Columns\TextColumn::make('tanggal')->date()->sortable(),
                 Tables\Columns\TextColumn::make('name')->label('Nama Operator'),
                 Tables\Columns\TextColumn::make('nozzle'),
 
@@ -98,7 +100,11 @@ class DespenserResource extends Resource
                 Tables\Columns\TextColumn::make('susut_tahunan'),
             ])
             ->filters([
-                //
+                SelectFilter::make('product_id')
+                ->label('Filter Produk')
+                ->options(Product::all()->pluck('name', 'id'))
+                ->searchable()
+                ->placeholder('Semua Produk'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -5,10 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PenerimaanResource\Pages;
 use App\Filament\Resources\PenerimaanResource\RelationManagers;
 use App\Models\Penerimaan;
+use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -67,7 +69,7 @@ class PenerimaanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('product.name')->label('Product'),
+                Tables\Columns\TextColumn::make('product.name')->label('Product')->searchable(),
                 Tables\Columns\TextColumn::make('tanggal')->sortable(),
                 Tables\Columns\TextColumn::make('no_tangki')->label('No.Tangki'),
                 Tables\Columns\TextColumn::make('no_pnbp')->label('No.PNBP'),
@@ -80,7 +82,11 @@ class PenerimaanResource extends Resource
                 Tables\Columns\TextColumn::make('susut_tahunan')->label('Susut Tahunan'),
             ])
             ->filters([
-                //
+                SelectFilter::make('product_id')
+                ->label('Filter Produk')
+                ->options(Product::all()->pluck('name', 'id'))
+                ->searchable()
+                ->placeholder('Semua Produk'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -86,29 +86,28 @@ class ReportResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('product.name')->label('Product'),
+                Tables\Columns\TextColumn::make('product.name')->label('Product')->searchable(),
                 Tables\Columns\TextColumn::make('tanggal')->sortable(),
                 Tables\Columns\TextColumn::make('stok_awal')->label('Stok Awal'),
                 Tables\Columns\TextColumn::make('no_tangki')->label('No.Tangki'),
                 Tables\Columns\TextColumn::make('no_pnbp')->label('No.PNBP'),
-                Tables\Columns\TextColumn::make('vol_sebelum_penerimaan')->label('Vol Sebelum Peneriamaan'),
-                Tables\Columns\TextColumn::make('vol_penerimaan_pnbp')->label('Vol Penerimaan PNBP'),
-                Tables\Columns\TextColumn::make('vol_penerimaan_aktual')->label('Vol Penerimaan Aktual'),
+                Tables\Columns\TextColumn::make('vol_sebelum_penerimaan')->label('Vol Sebelum Peneriamaan')->searchable(),
+                Tables\Columns\TextColumn::make('vol_penerimaan_pnbp')->label('Vol Penerimaan PNBP')->searchable(),
+                Tables\Columns\TextColumn::make('vol_penerimaan_aktual')->label('Vol Penerimaan Aktual')->searchable(),
                 Tables\Columns\TextColumn::make('susut_tangki')->label('Susut Tangki'),
-                Tables\Columns\TextColumn::make('pengeluaran')->label('Pengeluaran'),
+                Tables\Columns\TextColumn::make('pengeluaran')->label('Pengeluaran')->searchable(),
                 Tables\Columns\TextColumn::make('stok_teoritis'),
                 Tables\Columns\TextColumn::make('stok_aktual'),
-                Tables\Columns\TextColumn::make('susut_pengeluaran')->label('Susut Pengeluaran'),
+                Tables\Columns\TextColumn::make('susut_pengeluaran')->label('Susut Pengeluaran')->searchable(),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
                 Action::make('Reset Data')
                     ->label('Reset Semua Data')
                     ->color('danger')
                     ->icon('heroicon-m-trash')
                     ->requiresConfirmation()
                     ->action(function () {
-                        \App\Models\Report::truncate();
+                        Report::truncate();
                         Notification::make()
                             ->title('Semua data berhasil direset.')
                             ->success()

@@ -5,10 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\NozzleResource\Pages;
 use App\Filament\Resources\NozzleResource\RelationManagers;
 use App\Models\Nozzle;
+use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -83,9 +85,9 @@ class NozzleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('product.name')->label('Product'),
-                Tables\Columns\TextColumn::make('shift.name')->label('Shift'),
-                Tables\Columns\TextColumn::make('tanggal')->date(),
-                Tables\Columns\TextColumn::make('name')->label('Nama Operator'),
+                Tables\Columns\TextColumn::make('shift.name')->label('Shift')->searchable(),
+                Tables\Columns\TextColumn::make('tanggal')->date()->sortable(),
+                Tables\Columns\TextColumn::make('name')->label('Nama Operator')->searchable(),
                 Tables\Columns\TextColumn::make('nozzle'),
                 Tables\Columns\TextColumn::make('meter_awal'),
                 Tables\Columns\TextColumn::make('meter_akhir'),
@@ -94,7 +96,11 @@ class NozzleResource extends Resource
                 Tables\Columns\TextColumn::make('jumlah'),
             ])
             ->filters([
-                //
+                SelectFilter::make('product_id')
+                ->label('Filter Produk')
+                ->options(Product::all()->pluck('name', 'id'))
+                ->searchable()
+                ->placeholder('Semua Produk'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
