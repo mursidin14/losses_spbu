@@ -44,11 +44,10 @@ class Report extends Model
             $report->susut_harian = ($report->susut_pengeluaran / $report->pengeluaran) * 1;
 
             // susut mingguan
-
             $startOfWeek = now()->startOfWeek();
             $endOfWeek = now()->endOfWeek();
             $weeklyReports = Report::where('product_id', $report->product_id)
-                ->whereBetween("DATE_FORMAT(tanggal, '%X-%V') = ?", [$startOfWeek, $endOfWeek])
+                ->whereBetween("tanggal", [$startOfWeek, $endOfWeek])
                 ->get();
             
            $weeklyTotalSusut = $weeklyReports->sum('susut_pengeluaran');

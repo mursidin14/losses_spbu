@@ -13,46 +13,52 @@ class SusutBulananChart extends ChartWidget
         return auth()->user()->hasRole('admin');
     }
 
-    protected static ?string $heading = 'Losses Harian';
+    protected static ?string $heading = 'Losses Bulanan';
+    protected static string $color = 'info';
 
-        protected function getData(): array
-        {
-            $now = now();
-            
-            $productIds = [1, 2, 3, 4];
-            $products = Product::whereIn('id', $productIds)->get();
-        
-            $labels = []; 
-            $datasets = [];
-        
-            foreach ($products as $product) {
-                $reports = $product->report()
-                ->whereMonth('tanggal', $now->month)
-                ->whereYear('tanggal', $now->year)
-                ->orderBy('tanggal')
+    protected function getData(): array
+    {
+        $products = Product::take(4)->get();
+        $labels = [];
+
+        $datasets = [];
+
+        foreach ($products as $product) {
+            $monthlyReports = Report::selectRaw('DATE_FORMAT(tanggal, "%Y-%m") as bulan, AVG(susut_harian) as avg_susut')
+                ->where('product_id', $product->id)
+                ->groupBy('bulan')
+                ->orderBy('bulan')
                 ->get();
-        
-                $productLabels = $reports->pluck('tanggal')->map(fn($tanggal) => \Carbon\Carbon::parse($tanggal)->format('Y-m-d'))->toArray();
-                $susutData = $reports->pluck('susut_harian')->toArray();
-        
-                $labels = array_unique(array_merge($labels, $productLabels));
-        
-                $datasets[] = [
-                    'label' => $product->name,
-                    'data' => array_values($susutData),
-                    'fill' => false,
-                    'borderColor' => ['#f59e0b', '#10b981', '#3b82f6', '#ef4444'],
-                ];
-            }
-        
 
-            sort($labels);      
-            return [
-                'datasets' => $datasets,
-                'labels' => $labels,
+            $data = [];
+            foreach ($monthlyReports as $report) {
+                if (!in_array($report->bulan, $labels)) {
+                    $labels[] = $report->bulan;
+                }
+                $data[$report->bulan] = round($report->avg_susut, 2);
+            }
+
+            $sortedData = [];
+            foreach ($labels as $bulan) {
+                $sortedData[] = $data[$bulan] ?? 0;
+            }
+
+            $datasets[] = [
+                'label' => $product->name,
+                'data' => $sortedData,
+                'borderColor' => '#' . substr(md5($product->id), 0, 6),
+                'fill' => false,
             ];
         }
-    
+
+        sort($labels);
+
+        return [
+            'datasets' => $datasets,
+            'labels' => $labels,
+        ];
+    }
+
 
     protected function getType(): string
     {

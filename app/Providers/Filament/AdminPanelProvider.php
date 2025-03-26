@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Widgets\LossesDespenserHarian;
+use App\Filament\Widgets\LossesHarian;
+use App\Filament\Widgets\LossesPenerimaan;
 use App\Filament\Widgets\OperationtLosses;
 use App\Filament\Widgets\PenerimaanChart;
 use App\Filament\Widgets\PenerimaanLosses;
@@ -60,6 +62,8 @@ class AdminPanelProvider extends PanelProvider
                 StatsLossesBulanan::class,
                 SusutMingguan::class,
                 SusutHarian::class,
+                LossesPenerimaan::class,
+                LossesHarian::class,
                 SusutBulananChart::class,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
