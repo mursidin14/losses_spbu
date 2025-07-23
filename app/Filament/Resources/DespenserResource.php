@@ -21,7 +21,7 @@ class DespenserResource extends Resource
 {
     protected static ?string $model = Despenser::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calculator';
 
     public static ?string $navigationGroup = 'Operator';
 

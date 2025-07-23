@@ -19,7 +19,7 @@ class NozzleResource extends Resource
 {
     protected static ?string $model = Nozzle::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-turn-up-right';
 
     public static ?string $navigationGroup = 'Operator';
 

@@ -19,7 +19,7 @@ class PenerimaanResource extends Resource
 {
     protected static ?string $model = Penerimaan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-beaker';
 
     public static ?string $navigationLabel = 'Penerimaan';
 
